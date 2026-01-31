@@ -40,3 +40,5 @@ build/
 # Default ignored files
 /shelf/
 /workspace.xml
+/.idea/encodings.xml
+/.idea/workspace.xml
