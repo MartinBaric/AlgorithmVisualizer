@@ -1,17 +1,18 @@
 package sortingAlgorithms;
 
+import gui.SwapListener;
 import sortingAlgorithms.enums.SortingType;
 
 import java.util.List;
 
 public class BubbleSort<T extends Comparable<T>> extends SortingAlgorithm<T> {
 
-    protected BubbleSort(List<T> list) {
+    public BubbleSort(List<T> list) {
         super(list);
     }
 
     @Override
-    void sort() {
+    public void sort(SwapListener<T> swapListener) {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {
 
@@ -20,6 +21,9 @@ public class BubbleSort<T extends Comparable<T>> extends SortingAlgorithm<T> {
                     T temp = list.get(j);
                     list.set(j, list.get(j - 1));
                     list.set(j - 1, temp);
+
+                    if (swapListener != null)
+                        swapListener.swap(j-1, j);
                 }
             }
         }
