@@ -6,7 +6,7 @@ public class CSVLoaderTest {
     @Test
     void testLoadCSVInput() {
         // Act
-        int[] numbers = CSVLoader.loadCSVInput();
+        int[] numbers = CSVLoader.loadCSVInputAsArray();
 
         assertNotNull(numbers, "CSVLoader returned null");
 
