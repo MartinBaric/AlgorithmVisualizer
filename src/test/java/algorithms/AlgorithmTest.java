@@ -16,7 +16,7 @@ public class AlgorithmTest {
         List<Integer> numbers = new ArrayList<>(List.of(7,8,5,1,4));
         List<Integer> expected = List.of(1,4,5,7,8);
         SortingAlgorithm<Integer> bubbleSort = new BubbleSort<>(numbers);
-        bubbleSort.sort(null);
+        bubbleSort.sort(null, null);
         assertEquals(numbers, expected);
     }
 }
