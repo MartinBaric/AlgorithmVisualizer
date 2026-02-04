@@ -1,7 +1,8 @@
 package sortingAlgorithms;
 
-import gui.SwapListener;
 import sortingAlgorithms.enums.SortingType;
+import sortingAlgorithms.functionalInterfaces.HighlightListener;
+import sortingAlgorithms.functionalInterfaces.SwapListener;
 
 import java.util.List;
 
@@ -11,6 +12,6 @@ public abstract class SortingAlgorithm<T extends Comparable<T>> {
     protected SortingAlgorithm(List<T> list) {
         this.list = list;
     }
-    public abstract void sort(SwapListener<T> swapListener);
+    public abstract void sort(SwapListener swapListener, HighlightListener highlightListener);
     abstract SortingType getType();
 }
