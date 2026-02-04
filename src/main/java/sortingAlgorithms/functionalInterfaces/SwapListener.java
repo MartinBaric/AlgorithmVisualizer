@@ -1,4 +1,4 @@
-package sortingAlgorithms;
+package sortingAlgorithms.functionalInterfaces;
 
 @FunctionalInterface
 public interface SwapListener {
