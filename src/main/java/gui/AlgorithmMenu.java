@@ -8,61 +8,61 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sortingAlgorithms.BubbleSort;
-import sortingAlgorithms.functionalInterfaces.HighlightListener;
 import sortingAlgorithms.SortingAlgorithm;
-import sortingAlgorithms.functionalInterfaces.SwapListener;
 import sortingAlgorithms.enums.SortingType;
+import sortingAlgorithms.functionalInterfaces.HighlightListener;
+import sortingAlgorithms.functionalInterfaces.SwapListener;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
-public class Gui {
+public class AlgorithmMenu {
     private static final int WIDTH_SORTING = 900;
     private static final int HEIGHT_SORTING = 600;
 
-    private static final int WIDTH_MAIN_GUI = 300;
-    private static final int HEIGHT_MAIN_GUI = 200;
-
-    private static final int SPACING = 15;
+    private static final int WIDTH_ALGORITHM_WINDOW = 600;
+    private static final int HEIGHT_ALGORITHM_WINDOW = 400;
 
     private static final float MIN_VALUE = 0.1f;
     private static final float MAX_VALUE = 3.0f;
 
-    public static void setMainGui(Stage stage) {
-        VBox root = new VBox(5);
+    private static final int SPACING = 15;
+    private static final double BRIGHTNESS = 0.3;
 
-        Button sortingAlgorithms = new Button("Sorting Algorithms");
-        Button exit = new Button("Exit");
-
-        sortingAlgorithms.setOnAction(e -> visualizationScene(stage));
-        exit.setOnAction(e -> stage.close());
-
-        root.setAlignment(Pos.TOP_CENTER);
-        root.setSpacing(SPACING);
-        root.getChildren().addAll(sortingAlgorithms, exit);
-
-        Scene scene = new Scene(root, WIDTH_MAIN_GUI, HEIGHT_MAIN_GUI);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    private static void visualizationScene(Stage stage) {
+    static void visualizationScene(Stage stage) {
         BorderPane root = new BorderPane();
         Scene scene = new Scene(root, WIDTH_SORTING, HEIGHT_SORTING);
 
         List<Integer> numbers = CSVLoader.loadCSVInput();
         HBox verticalBars = visualizeBars(numbers);
 
-        root.setCenter(verticalBars);
+        ScrollPane algorithmWindow = new ScrollPane(verticalBars);
+        algorithmWindow.setFitToHeight(true);
+        algorithmWindow.setPannable(true);
+        algorithmWindow.setPrefViewportHeight(WIDTH_ALGORITHM_WINDOW);
+        algorithmWindow.setPrefViewportHeight(HEIGHT_ALGORITHM_WINDOW);
+
+        algorithmWindow.setStyle("-fx-border-color: black; -fx-border-width: 2;");
+
+        BorderPane.setMargin(algorithmWindow, new Insets(20, 20, 20, 20));
+
+        root.setCenter(algorithmWindow);
 
         RadioButton bubbleSort = new RadioButton(SortingType.BUBBLESORT.getName());
 
@@ -76,7 +76,7 @@ public class Gui {
 
         start.setOnAction(e -> startAlgorithm(group.getSelectedToggle(), numbers,
                 verticalBars, slider));
-        back.setOnAction(e -> setMainGui(stage));
+        back.setOnAction(e -> MainMenu.setMainGui(stage));
 
         VBox controlPanel = new VBox(SPACING, slider, start, bubbleSort, back);
         controlPanel.setPadding(new Insets(20));
@@ -94,11 +94,14 @@ public class Gui {
         // optional: find max to scale bars nicely
         int max = Collections.max(numbers);
 
+        ImagePattern brickPattern = getBrickImagePattern();
+
         for (int value : numbers) {
             Rectangle bar = new Rectangle();
             bar.setWidth(20); // width of each bar
             bar.setHeight((double) value / max * 300); // scale height to max 300 px
-            bar.setFill(Color.DODGERBLUE);
+            bar.setFill(brickPattern);
+            markBar(bar, false);
 
             box.getChildren().add(bar);
         }
@@ -131,10 +134,10 @@ public class Gui {
         timeline.getKeyFrames().add(new KeyFrame(
                 Duration.millis((timeline.getKeyFrames().size() + 1) * 100 / slider.getValue()),
                 ev -> {
-                    bars.get(i).setFill(Color.GREEN);
+                    markBar(bars.get(i), true);
                     for (int k = 0; k < bars.size(); k++) {
                         if (k != i)
-                            bars.get(k).setFill(Color.DODGERBLUE);
+                            markBar(bars.get(k), false);
                     }
                 }
         ));
@@ -148,10 +151,10 @@ public class Gui {
                     double h2 = bars.get(j).getHeight();
                     bars.get(i).setHeight(h2);
                     bars.get(j).setHeight(h1);
-                    bars.get(j).setFill(Color.DODGERBLUE);
-                    bars.get(i).setFill(Color.GREEN);
+                    markBar(bars.get(j), false);
+                    markBar(bars.get(i), true);
                 }
-                ));
+        ));
     }
 
     private static void dehighlightAll(Timeline timeline, List<Rectangle> bars, Slider slider) {
@@ -159,8 +162,31 @@ public class Gui {
                 Duration.millis((timeline.getKeyFrames().size() + 1) * 100 / slider.getValue()),
                 ev -> {
                     for (Rectangle bar : bars)
-                        bar.setFill(Color.DODGERBLUE);
+                        markBar(bar, false);
                 }
         ));
+    }
+
+    private static ImagePattern getBrickImagePattern() {
+        InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("moosybrick.jpg");
+        if (is == null) {
+            throw new RuntimeException("moosybrick.jpg not found in classpath!");
+        }
+
+        Image brickImage = new Image(is);
+        return new ImagePattern(brickImage, 0, 0, 20, 30, false);
+    }
+
+    private static void markBar(Rectangle bar, boolean mark) {
+        ColorAdjust adjust = new ColorAdjust();
+        double brightness;
+
+        if (mark)
+            brightness = BRIGHTNESS;
+        else
+            brightness = -BRIGHTNESS;
+
+        adjust.setBrightness(brightness);
+        bar.setEffect(adjust);
     }
 }
