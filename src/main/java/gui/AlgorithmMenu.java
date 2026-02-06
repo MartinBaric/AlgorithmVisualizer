@@ -10,27 +10,24 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import sortingAlgorithms.BubbleSort;
+import sortingAlgorithms.InsertionSort;
 import sortingAlgorithms.SortingAlgorithm;
 import sortingAlgorithms.enums.SortingType;
 import sortingAlgorithms.functionalInterfaces.HighlightListener;
 import sortingAlgorithms.functionalInterfaces.SwapListener;
 
 import java.io.InputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public class AlgorithmMenu {
     private static final int WIDTH_SORTING = 900;
@@ -65,9 +62,14 @@ public class AlgorithmMenu {
         root.setCenter(algorithmWindow);
 
         RadioButton bubbleSort = new RadioButton(SortingType.BUBBLESORT.getName());
+        RadioButton insertSort = new RadioButton(SortingType.INSERTSORT.getName());
+
+        bubbleSort.setUserData(SortingType.BUBBLESORT);
+        insertSort.setUserData(SortingType.INSERTSORT);
 
         ToggleGroup group = new ToggleGroup();
         bubbleSort.setToggleGroup(group);
+        insertSort.setToggleGroup(group);
 
         Slider slider = new Slider(MIN_VALUE, MAX_VALUE, (MAX_VALUE + MIN_VALUE) / 2);
         slider.setOrientation(Orientation.HORIZONTAL);
@@ -78,7 +80,7 @@ public class AlgorithmMenu {
                 verticalBars, slider));
         back.setOnAction(e -> MainMenu.setMainGui(stage));
 
-        VBox controlPanel = new VBox(SPACING, slider, start, bubbleSort, back);
+        VBox controlPanel = new VBox(SPACING, slider, start, bubbleSort, insertSort, back);
         controlPanel.setPadding(new Insets(20));
         controlPanel.setAlignment(Pos.TOP_CENTER);
 
@@ -121,8 +123,21 @@ public class AlgorithmMenu {
         HighlightListener highlightListener = (i) -> highlightBar(i, timeline, bars, slider);
         SwapListener swapListener = (i, j) -> swapBars(i,j, timeline, bars, slider);
 
-        SortingAlgorithm<Integer> bubbleSort = new BubbleSort<>(numbers);
-        bubbleSort.sort(swapListener, highlightListener);
+        SortingAlgorithm<Integer> sortingAlgorithm = null;
+
+        if (algorithmToggle == null) return;
+
+        switch((SortingType) algorithmToggle.getUserData()) {
+            case BUBBLESORT -> {
+                sortingAlgorithm = new BubbleSort<>(numbers);
+                System.out.println("You have chosen BBS");
+            }
+            case INSERTSORT -> {
+                sortingAlgorithm = new InsertionSort<>(numbers);
+                System.out.println("You have chosen InsertionSort");
+            }
+        }
+        sortingAlgorithm.sort(swapListener, highlightListener);
 
         dehighlightAll(timeline, bars, slider);
 
