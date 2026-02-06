@@ -5,7 +5,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import javafx.scene.canvas.Canvas;
 
 public class MainMenu {
     private static final int WIDTH_MAIN_GUI = 300;
