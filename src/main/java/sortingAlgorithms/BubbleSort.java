@@ -1,7 +1,8 @@
 package sortingAlgorithms;
 
-import gui.SwapListener;
 import sortingAlgorithms.enums.SortingType;
+import sortingAlgorithms.functionalInterfaces.HighlightListener;
+import sortingAlgorithms.functionalInterfaces.SwapListener;
 
 import java.util.List;
 
@@ -12,9 +13,11 @@ public class BubbleSort<T extends Comparable<T>> extends SortingAlgorithm<T> {
     }
 
     @Override
-    public void sort(SwapListener<T> swapListener) {
+    public void sort(SwapListener swapListener, HighlightListener highlightListener) {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {
+                if (highlightListener != null)
+                    highlightListener.highlight(j);
 
                 if (list.get(j - 1).compareTo(list.get(j)) > 0) {
                     // Ascending bubble
