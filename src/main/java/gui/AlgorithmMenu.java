@@ -128,14 +128,8 @@ public class AlgorithmMenu {
         if (algorithmToggle == null) return;
 
         switch((SortingType) algorithmToggle.getUserData()) {
-            case BUBBLESORT -> {
-                sortingAlgorithm = new BubbleSort<>(numbers);
-                System.out.println("You have chosen BBS");
-            }
-            case INSERTSORT -> {
-                sortingAlgorithm = new InsertionSort<>(numbers);
-                System.out.println("You have chosen InsertionSort");
-            }
+            case BUBBLESORT -> sortingAlgorithm = new BubbleSort<>(numbers);
+            case INSERTSORT -> sortingAlgorithm = new InsertionSort<>(numbers);
         }
         sortingAlgorithm.sort(swapListener, highlightListener);
 
