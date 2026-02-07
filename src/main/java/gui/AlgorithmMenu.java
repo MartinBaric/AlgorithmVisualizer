@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import sortingAlgorithms.BubbleSort;
 import sortingAlgorithms.InsertionSort;
+import sortingAlgorithms.SelectionSort;
 import sortingAlgorithms.SortingAlgorithm;
 import sortingAlgorithms.enums.SortingType;
 import sortingAlgorithms.functionalInterfaces.HighlightListener;
@@ -63,13 +64,16 @@ public class AlgorithmMenu {
 
         RadioButton bubbleSort = new RadioButton(SortingType.BUBBLESORT.getName());
         RadioButton insertSort = new RadioButton(SortingType.INSERTSORT.getName());
+        RadioButton selectSort = new RadioButton(SortingType.SELECTSORT.getName());
 
         bubbleSort.setUserData(SortingType.BUBBLESORT);
         insertSort.setUserData(SortingType.INSERTSORT);
+        selectSort.setUserData(SortingType.SELECTSORT);
 
         ToggleGroup group = new ToggleGroup();
         bubbleSort.setToggleGroup(group);
         insertSort.setToggleGroup(group);
+        selectSort.setToggleGroup(group);
 
         Slider slider = new Slider(MIN_VALUE, MAX_VALUE, (MAX_VALUE + MIN_VALUE) / 2);
         slider.setOrientation(Orientation.HORIZONTAL);
@@ -80,7 +84,8 @@ public class AlgorithmMenu {
                 verticalBars, slider));
         back.setOnAction(e -> MainMenu.setMainGui(stage));
 
-        VBox controlPanel = new VBox(SPACING, slider, start, bubbleSort, insertSort, back);
+        VBox algorithms = new VBox(SPACING, bubbleSort, insertSort, selectSort);
+        VBox controlPanel = new VBox(SPACING, slider, start, algorithms, back);
         controlPanel.setPadding(new Insets(20));
         controlPanel.setAlignment(Pos.TOP_CENTER);
 
@@ -128,10 +133,11 @@ public class AlgorithmMenu {
         if (algorithmToggle == null) return;
 
         switch((SortingType) algorithmToggle.getUserData()) {
-            case BUBBLESORT -> sortingAlgorithm = new BubbleSort<>(numbers);
-            case INSERTSORT -> sortingAlgorithm = new InsertionSort<>(numbers);
+            case BUBBLESORT -> sortingAlgorithm = new BubbleSort<>(numbers, highlightListener, swapListener);
+            case INSERTSORT -> sortingAlgorithm = new InsertionSort<>(numbers, highlightListener, swapListener);
+            case SELECTSORT -> sortingAlgorithm = new SelectionSort<>(numbers, highlightListener, swapListener);
         }
-        sortingAlgorithm.sort(swapListener, highlightListener);
+        sortingAlgorithm.sort();
 
         dehighlightAll(timeline, bars, slider);
 
