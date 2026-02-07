@@ -1,5 +1,8 @@
 package sortingAlgorithms.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum SortingType {
     BUBBLESORT("Bubblesort"),
     INSERTSORT("Insertsort"),
@@ -9,9 +12,5 @@ public enum SortingType {
 
     SortingType(String name) {
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 }
