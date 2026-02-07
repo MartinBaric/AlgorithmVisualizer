@@ -17,9 +17,6 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import sortingAlgorithms.BubbleSort;
-import sortingAlgorithms.InsertionSort;
-import sortingAlgorithms.SelectionSort;
 import sortingAlgorithms.SortingAlgorithm;
 import sortingAlgorithms.enums.SortingType;
 import sortingAlgorithms.functionalInterfaces.HighlightListener;
@@ -128,15 +125,9 @@ public class AlgorithmMenu {
         HighlightListener highlightListener = (i) -> highlightBar(i, timeline, bars, slider);
         SwapListener swapListener = (i, j) -> swapBars(i,j, timeline, bars, slider);
 
-        SortingAlgorithm<Integer> sortingAlgorithm = null;
+        SortingType sortingType = (SortingType) algorithmToggle.getUserData();
+        SortingAlgorithm<Integer> sortingAlgorithm = sortingType.create(numbers, highlightListener, swapListener);
 
-        if (algorithmToggle == null) return;
-
-        switch((SortingType) algorithmToggle.getUserData()) {
-            case BUBBLESORT -> sortingAlgorithm = new BubbleSort<>(numbers, highlightListener, swapListener);
-            case INSERTSORT -> sortingAlgorithm = new InsertionSort<>(numbers, highlightListener, swapListener);
-            case SELECTSORT -> sortingAlgorithm = new SelectionSort<>(numbers, highlightListener, swapListener);
-        }
         sortingAlgorithm.sort();
 
         dehighlightAll(timeline, bars, slider);
