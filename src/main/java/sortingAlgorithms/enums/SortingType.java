@@ -2,7 +2,8 @@ package sortingAlgorithms.enums;
 
 public enum SortingType {
     BUBBLESORT("Bubblesort"),
-    INSERTSORT("Insertsort");
+    INSERTSORT("Insertsort"),
+    SELECTSORT("Selectsort");
 
     private final String name;
 
