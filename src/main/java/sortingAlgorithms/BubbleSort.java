@@ -1,6 +1,5 @@
 package sortingAlgorithms;
 
-import sortingAlgorithms.enums.SortingType;
 import sortingAlgorithms.functionalInterfaces.HighlightListener;
 import sortingAlgorithms.functionalInterfaces.SwapListener;
 
@@ -8,12 +7,16 @@ import java.util.List;
 
 public class BubbleSort<T extends Comparable<T>> extends SortingAlgorithm<T> {
 
-    public BubbleSort(List<T> list) {
-        super(list);
+    public BubbleSort(List<T> numbers, HighlightListener highlightListener, SwapListener swapListener) {
+        super(numbers, highlightListener, swapListener);
+    }
+
+    public BubbleSort() {
+        super();
     }
 
     @Override
-    public void sort(SwapListener swapListener, HighlightListener highlightListener) {
+    public void sort() {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {
                 if (highlightListener != null)
@@ -30,10 +33,5 @@ public class BubbleSort<T extends Comparable<T>> extends SortingAlgorithm<T> {
                 }
             }
         }
-    }
-
-    @Override
-    SortingType getType() {
-        return SortingType.BUBBLESORT;
     }
 }

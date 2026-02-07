@@ -1,17 +1,22 @@
 package sortingAlgorithms;
 
-import sortingAlgorithms.enums.SortingType;
+import lombok.Setter;
 import sortingAlgorithms.functionalInterfaces.HighlightListener;
 import sortingAlgorithms.functionalInterfaces.SwapListener;
 
 import java.util.List;
 
 public abstract class SortingAlgorithm<T extends Comparable<T>> {
+    @Setter
     protected List<T> list;
+    protected HighlightListener highlightListener = null;
+    protected SwapListener swapListener = null;
 
-    protected SortingAlgorithm(List<T> list) {
+    public SortingAlgorithm(List<T> list, HighlightListener highlightListener, SwapListener swapListener) {
         this.list = list;
+        this.highlightListener = highlightListener;
+        this.swapListener = swapListener;
     }
-    public abstract void sort(SwapListener swapListener, HighlightListener highlightListener);
-    abstract SortingType getType();
+    public SortingAlgorithm() {}
+    public abstract void sort();
 }
