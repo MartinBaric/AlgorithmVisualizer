@@ -1,6 +1,5 @@
 package sortingAlgorithms;
 
-import sortingAlgorithms.enums.SortingType;
 import sortingAlgorithms.functionalInterfaces.HighlightListener;
 import sortingAlgorithms.functionalInterfaces.SwapListener;
 
@@ -36,10 +35,5 @@ public class InsertionSort <T extends Comparable<T>> extends SortingAlgorithm<T>
             if (highlightListener != null)
                 highlightListener.highlight(j+1);
         }
-    }
-
-    @Override
-    SortingType getType() {
-        return SortingType.INSERTSORT;
     }
 }

@@ -1,7 +1,6 @@
 package sortingAlgorithms;
 
 import lombok.Setter;
-import sortingAlgorithms.enums.SortingType;
 import sortingAlgorithms.functionalInterfaces.HighlightListener;
 import sortingAlgorithms.functionalInterfaces.SwapListener;
 
@@ -20,5 +19,4 @@ public abstract class SortingAlgorithm<T extends Comparable<T>> {
     }
     public SortingAlgorithm() {}
     public abstract void sort();
-    abstract SortingType getType();
 }

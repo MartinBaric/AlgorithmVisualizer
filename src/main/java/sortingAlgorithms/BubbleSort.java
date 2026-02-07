@@ -1,6 +1,5 @@
 package sortingAlgorithms;
 
-import sortingAlgorithms.enums.SortingType;
 import sortingAlgorithms.functionalInterfaces.HighlightListener;
 import sortingAlgorithms.functionalInterfaces.SwapListener;
 
@@ -34,10 +33,5 @@ public class BubbleSort<T extends Comparable<T>> extends SortingAlgorithm<T> {
                 }
             }
         }
-    }
-
-    @Override
-    SortingType getType() {
-        return SortingType.BUBBLESORT;
     }
 }
