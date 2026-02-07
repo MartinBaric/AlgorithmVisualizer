@@ -1,5 +1,6 @@
 package sortingAlgorithms;
 
+import lombok.Setter;
 import sortingAlgorithms.enums.SortingType;
 import sortingAlgorithms.functionalInterfaces.HighlightListener;
 import sortingAlgorithms.functionalInterfaces.SwapListener;
@@ -7,11 +8,20 @@ import sortingAlgorithms.functionalInterfaces.SwapListener;
 import java.util.List;
 
 public abstract class SortingAlgorithm<T extends Comparable<T>> {
+    @Setter
     protected List<T> list;
+    protected HighlightListener highlightListener = null;
+    protected SwapListener swapListener = null;
 
-    protected SortingAlgorithm(List<T> list) {
+    public SortingAlgorithm(List<T> list) {
         this.list = list;
     }
-    public abstract void sort(SwapListener swapListener, HighlightListener highlightListener);
+    public SortingAlgorithm(List<T> list, HighlightListener highlightListener, SwapListener swapListener) {
+        this.list = list;
+        this.highlightListener = highlightListener;
+        this.swapListener = swapListener;
+    }
+    public SortingAlgorithm() {}
+    public abstract void sort();
     abstract SortingType getType();
 }
