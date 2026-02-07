@@ -13,9 +13,6 @@ public abstract class SortingAlgorithm<T extends Comparable<T>> {
     protected HighlightListener highlightListener = null;
     protected SwapListener swapListener = null;
 
-    public SortingAlgorithm(List<T> list) {
-        this.list = list;
-    }
     public SortingAlgorithm(List<T> list, HighlightListener highlightListener, SwapListener swapListener) {
         this.list = list;
         this.highlightListener = highlightListener;
