@@ -1,12 +1,13 @@
 package gui;
 
+import controller.GUIController;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class MainMenu {
+public class MainMenuWindow {
     private static final int WIDTH_MAIN_GUI = 300;
     private static final int HEIGHT_MAIN_GUI = 200;
 
@@ -14,8 +15,13 @@ public class MainMenu {
 
     private static final int SPACING = 15;
 
+    private final GUIController guiController;
 
-    public static void setMainGui(Stage stage) {
+    public MainMenuWindow(GUIController guiController) {
+        this.guiController = guiController;
+    }
+
+    public void showMainWindow(Stage stage) {
         VBox root = new VBox(5);
 
         Button sortingAlgorithms = new Button("Sorting Algorithms");
@@ -24,8 +30,8 @@ public class MainMenu {
         sortingAlgorithms.setPrefWidth(BUTTON_SIZE);
         exit.setPrefWidth(BUTTON_SIZE);
 
-        sortingAlgorithms.setOnAction(e -> AlgorithmMenu.visualizationScene(stage));
-        exit.setOnAction(e -> stage.close());
+        sortingAlgorithms.setOnAction(e -> guiController.showSortingAlgorithmMenu());
+        exit.setOnAction(e -> guiController.close());
 
         root.setAlignment(Pos.CENTER);
         root.setSpacing(SPACING);
