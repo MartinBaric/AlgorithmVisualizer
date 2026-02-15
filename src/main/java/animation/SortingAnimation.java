@@ -47,14 +47,6 @@ public class SortingAnimation {
         ));
     }
 
-    public void play() {
-        timeline.play();
-    }
-
-    private double nextTime() {
-        return (timeline.getKeyFrames().size() + 1) * 100 / speedSlider.getValue();
-    }
-
     public void dehighlightAll(Timeline timeline, List<Rectangle> bars, Slider slider) {
         timeline.getKeyFrames().add(new KeyFrame(
                 Duration.millis((timeline.getKeyFrames().size() + 1) * 100 / slider.getValue()),
