@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import sortingAlgorithms.enums.SortingType;
+import sortingAlgorithms.enums.SortingAlgorithmType;
 
 import java.io.InputStream;
 import java.util.Collections;
@@ -65,13 +65,13 @@ public class SortingAlgorithmWindow {
     }
 
     public void showAlgorithmPanel(BorderPane root, List<Integer> numbers, HBox verticalBars) {
-        RadioButton bubbleSort = new RadioButton(SortingType.BUBBLESORT.getName());
-        RadioButton insertSort = new RadioButton(SortingType.INSERTSORT.getName());
-        RadioButton selectSort = new RadioButton(SortingType.SELECTSORT.getName());
+        RadioButton bubbleSort = new RadioButton(SortingAlgorithmType.BUBBLESORT.getName());
+        RadioButton insertSort = new RadioButton(SortingAlgorithmType.INSERTSORT.getName());
+        RadioButton selectSort = new RadioButton(SortingAlgorithmType.SELECTSORT.getName());
 
-        bubbleSort.setUserData(SortingType.BUBBLESORT);
-        insertSort.setUserData(SortingType.INSERTSORT);
-        selectSort.setUserData(SortingType.SELECTSORT);
+        bubbleSort.setUserData(SortingAlgorithmType.BUBBLESORT);
+        insertSort.setUserData(SortingAlgorithmType.INSERTSORT);
+        selectSort.setUserData(SortingAlgorithmType.SELECTSORT);
 
         ToggleGroup group = new ToggleGroup();
         bubbleSort.setToggleGroup(group);
@@ -80,6 +80,7 @@ public class SortingAlgorithmWindow {
 
         Slider slider = new Slider(MIN_VALUE, MAX_VALUE, (MAX_VALUE + MIN_VALUE) / 2);
         slider.setOrientation(Orientation.HORIZONTAL);
+        slider.prefWidth(400);
         Button start = new Button("Start");
         Button back = new Button("Back");
 
