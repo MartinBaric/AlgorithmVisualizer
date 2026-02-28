@@ -19,10 +19,14 @@ public class SortingAnimation {
 
     private static final double BRIGHTNESS = 0.3d;
 
-    public SortingAnimation(List<Rectangle> bars, Slider speedSlider, Timeline timeline) {
+    public SortingAnimation(List<Rectangle> bars, Slider speedSlider) {
         this.bars = bars;
         this.speedSlider = speedSlider;
-        this.timeline = timeline;
+
+        timeline = new Timeline();
+        timeline.setCycleCount(1);
+
+        timeline.rateProperty().bind(speedSlider.valueProperty());
     }
 
     public HighlightListener createHighlightListener() {
@@ -47,9 +51,9 @@ public class SortingAnimation {
         ));
     }
 
-    public void dehighlightAll(Timeline timeline, List<Rectangle> bars, Slider slider) {
+    public void dehighlightAll() {
         timeline.getKeyFrames().add(new KeyFrame(
-                Duration.millis((timeline.getKeyFrames().size() + 1) * 100 / slider.getValue()),
+                Duration.millis((timeline.getKeyFrames().size() + 1) * 100 / speedSlider.getValue()),
                 ev -> {
                     for (Rectangle bar : bars)
                         markBar(bar, false);
@@ -85,5 +89,9 @@ public class SortingAnimation {
                     }
                 }
         ));
+    }
+
+    public void play() {
+        timeline.play();
     }
 }
