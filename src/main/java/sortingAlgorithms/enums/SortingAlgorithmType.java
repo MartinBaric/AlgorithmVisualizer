@@ -11,7 +11,7 @@ import sortingAlgorithms.functionalInterfaces.SwapListener;
 import java.util.List;
 
 @Getter
-public enum SortingType {
+public enum SortingAlgorithmType {
     BUBBLESORT("Bubblesort") {
         @Override
         public <T extends Comparable<T>> SortingAlgorithm<T>
@@ -38,7 +38,7 @@ public enum SortingType {
     @Getter
     private final String name;
 
-    SortingType(String name) {
+    SortingAlgorithmType(String name) {
         this.name = name;
     }
 
